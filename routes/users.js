@@ -4,6 +4,11 @@ const router = express.Router();
 const userModel = require('../models/usermodel');
 
 router.get('/', (req, res)=>{
+    let user = userModel.find()
+        .then((result)=> res.send(result))
+        .catch(e => console.log(e))
+})
+router.post('/', (req, res)=>{
     let user = new userModel({
         username : 'Ajim Bong',
         password : 'helloworld',
@@ -15,5 +20,16 @@ router.get('/', (req, res)=>{
         .then((result)=> res.send(result))
         .catch(e => console.log(e))
 } );
+
+router.patch('/:id', (req, res)=>{
+    let user = userModel.findByIdAndUpdate(req.params.id)
+        .then(()=> res.send('was successfully updated'))
+        .catch(e => console.log(e))
+})
+router.delete('/:id', (req, res)=>{
+    let user = userModel.findByIdAndDelete(req.params.id)
+        .then(()=> res.send('was successfully deleted'))
+        .catch(e => console.log(e))
+})
 
 module.exports = router
